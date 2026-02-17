@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EcoleDirecte - Plateforme ENT scolaire complète pour élèves, professeurs et parents">
+    <meta name="keywords" content="ENT, école, plateforme,éscolaire, notes, messagerie, emploi du temps">
+    <meta name="author" content="EcoleDirecte">
+    <meta name="theme-color" content="#0040A8">
+    <meta name="mobile-alternate" content="yes">
+    
+    <title>EcoleDirecte - Plateforme ENT Scolaire</title>
+    
+    <!-- Favicon inline SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%230040A8%22 width=%22100%22 height=%22100%22 rx=%2210%22/><text x=%2250%22 y=%2275%22 font-size=%2280%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22>E</text></svg>">
+    
+    <link rel="stylesheet" href="pronote-style.css">
+    
+    <!-- Preconnect aux ressources -->
+    <link rel="preload" href="pronote-style.css" as="style">
+    <link rel="preload" href="pronote-script.js" as="script">
+</head>
+<body role="application" aria-label="Plateforme ENT EcoleDirecte">
+    <!-- SKIP LINK pour l'accessibilité -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <!-- PAGE DE CONNEXION -->
+    <div id="login-page" class="login-page active">
+        <div class="login-container">
+            <div class="login-box">
+                <div class="login-logo">
+                    <svg width="60" height="60" viewBox="0 0 100 100">
+                        <rect fill="#0040A8" width="100" height="100" rx="10"/>
+                        <text x="50" y="75" font-size="80" font-weight="bold" fill="white" text-anchor="middle">E</text>
+                    </svg>
+                    <h1>EcoleDirecte</h1>
+                </div>
+                
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <input type="text" id="username" placeholder="Identifiant" required autocomplete="username" aria-label="Identifiant">
+                    <input type="password" id="password" placeholder="Mot de passe" required autocomplete="current-password" aria-label="Mot de passe">
+                    <label class="remember-checkbox">
+                        <input type="checkbox" id="remember" aria-label="Se souvenir de moi">
+                        <span>Se souvenir de moi</span>
+                    </label>
+                    <button type="submit" class="btn-login-submit">Connexion</button>
+                    <p id="login-error" class="error" role="alert"></p>
+                </form>
+
+                <div class="login-demos">
+                    <p><strong>Accès démo :</strong></p>
+                    <div class="demo-accounts">
+                        <div class="demo">
+                            <strong>👨‍🎓 Élève</strong>
+                            <div>ID: student | Mot de passe: 1234</div>
+                        </div>
+                        <div class="demo">
+                            <strong>👨‍🏫 Professeur</strong>
+                            <div>ID: teacher | Mot de passe: 1234</div>
+                        </div>
+                        <div class="demo">
+                            <strong>👨‍👩‍👧 Parent</strong>
+                            <div>ID: parent | Mot de passe: 1234</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION PRINCIPALE -->
+    <div id="app-container" class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <span>E</span>
+                </div>
+                <span class="sidebar-title">EcoleDirecte</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="accueil" onclick="switchSection('accueil'); return false;">
+                    <span class="nav-icon">🏠</span>
+                    <span>Accueil</span>
+                </a>
+                <a href="#" class="nav-item" data-section="cahier-textes" onclick="switchSection('cahier-textes'); return false;">
+                    <span class="nav-icon">📖</span>
+                    <span>Cahier de textes</span>
+                </a>
+                <a href="#" class="nav-item" data-section="notes" onclick="switchSection('notes'); return false;">
+                    <span class="nav-icon">📊</span>
+                    <span>Notes</span>
+                </a>
+                <a href="#" class="nav-item" data-section="emploi-temps" onclick="switchSection('emploi-temps'); return false;">
+                    <span class="nav-icon">📅</span>
+                    <span>Emploi du temps</span>
+                </a>
+                <a href="#" class="nav-item" data-section="absences" onclick="switchSection('absences'); return false;">
+                    <span class="nav-icon">⏰</span>
+                    <span>Absences</span>
+                </a>
+                <a href="#" class="nav-item" data-section="messagerie" onclick="switchSection('messagerie'); return false;">
+                    <span class="nav-icon">✉️</span>
+                    <span>Messagerie</span>
+                    <span class="badge">5</span>
+                </a>
+                <a href="#" class="nav-item" data-section="devoirs" onclick="switchSection('devoirs'); return false;">
+                    <span class="nav-icon">📝</span>
+                    <span>Devoirs</span>
+                </a>
+                <a href="#" class="nav-item" data-section="documents" onclick="switchSection('documents'); return false;">
+                    <span class="nav-icon">📄</span>
+                    <span>Documents</span>
+                </a>
+                <a href="#" class="nav-item" data-section="ressources" onclick="switchSection('ressources'); return false;">
+                    <span class="nav-icon">📚</span>
+                    <span>Ressources</span>
+                </a>
+                <a href="#" class="nav-item" data-section="profil" onclick="switchSection('profil'); return false;">
+                    <span class="nav-icon">👤</span>
+                    <span>Mon profil</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="handleLogout()" class="btn-logout">Déconnexion</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- HEADER -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2 id="section-title">Accueil</h2>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <span id="user-display">Utilisateur</span>
+                        <div class="user-avatar">👤</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CONTENU DYNAMIQUE -->
+            <div class="content-area">
+                <!-- ACCUEIL -->
+                <section id="accueil" class="section active">
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Moyenne générale</div>
+                                <div class="stat-value">14.5/20</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✉️</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Messages non lus</div>
+                                <div class="stat-value">5</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⏰</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Absences</div>
+                                <div class="stat-value">2h</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📝</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Devoirs à rendre</div>
+                                <div class="stat-value">3</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-row">
+                        <div class="card">
+                            <h3>📰 Actualités</h3>
+                            <div class="news-item">
+                                <strong>Conseil de classe</strong>
+                                <p>Prévu le 25 février 2026 à 17h00</p>
+                            </div>
+                            <div class="news-item">
+                                <strong>Sortie pédagogique</strong>
+                                <p>Visite du musée le 10 mars 2026</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>📅 Prochains cours</h3>
+                            <div class="lesson-item">
+                                <span class="lesson-time">09:00-10:00</span>
+                                <span class="lesson-name">Mathématiques</span>
+                                <span class="lesson-room">Salle 205</span>
+                            </div>
+                            <div class="lesson-item">
+                                <span class="lesson-time">10:00-11:00</span>
+                                <span class="lesson-name">Français</span>
+                                <span class="lesson-room">Salle 101</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CAHIER DE TEXTES -->
+                <section id="cahier-textes" class="section">
+                    <div class="toolbar">
+                        <input type="text" placeholder="Rechercher..." class="search-box">
+                        <select class="filter-select">
+                            <option>Toutes les matières</option>
+                            <option>Mathématiques</option>
+                            <option>Français</option>
+                            <option>Sciences</option>
+                        </select>
+                    </div>
+
+                    <div class="lessons-list">
+                        <div class="lesson-card">
+                            <div class="lesson-header">
+                                <h4>Mathématiques - Dérivées</h4>
+                                <span class="lesson-date">17 fév 2026</span>
+                            </div>
+                            <div class="lesson-body">
+                                <p><strong>Professeur :</strong> M. Martin</p>
+                                <p><strong>Contenu :</strong> Calcul des dérivées, règles de dérivation, applications.</p>
+                                <p><strong>Devoirs :</strong> Exercices 1-5 page 120</p>
+                            </div>
+                        </div>
+
+                        <div class="lesson-card">
+                            <div class="lesson-header">
+                                <h4>Français - Analyse de texte</h4>
+                                <span class="lesson-date">16 fév 2026</span>
+                            </div>
+                            <div class="lesson-body">
+                                <p><strong>Professeur :</strong> Mme Dupont</p>
+                                <p><strong>Contenu :</strong> Étude du premier acte de Molière.</p>
+                                <p><strong>Devoirs :</strong> Relire et commenter paragraphes 3-5</p>
+                            </div>
+                        </div>
+
+                        <div class="lesson-card">
+                            <div class="lesson-header">
+                                <h4>Sciences Physiques - Électrocinétique</h4>
+                                <span class="lesson-date">15 fév 2026</span>
+                            </div>
+                            <div class="lesson-body">
+                                <p><strong>Professeur :</strong> M. Benoit</p>
+                                <p><strong>Contenu :</strong> Circuits électriques, loi d'Ohm.</p>
+                                <p><strong>Devoirs :</strong> Exercices corrigés disponibles</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- NOTES -->
+                <section id="notes" class="section">
+                    <div class="notes-summary">
+                        <div class="summary-card">
+                            <h4>Moyenne générale</h4>
+                            <div class="summary-value">14.5/20</div>
+                        </div>
+                        <div class="summary-card">
+                            <h4>Rang</h4>
+                            <div class="summary-value">#12/45</div>
+                        </div>
+                        <div class="summary-card">
+                            <h4>Meilleure note</h4>
+                            <div class="summary-value">17/20</div>
+                        </div>
+                    </div>
+
+                    <table class="grades-table">
+                        <thead>
+                            <tr>
+                                <th>Matière</th>
+                                <th>Eval 1</th>
+                                <th>Eval 2</th>
+                                <th>Eval 3</th>
+                                <th>Moyenne</th>
+                                <th>Classe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Mathématiques</strong></td>
+                                <td>16/20</td>
+                                <td>14/20</td>
+                                <td>15/20</td>
+                                <td class="grade-avg">15/20</td>
+                                <td>14.2/20</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Français</strong></td>
+                                <td>13/20</td>
+                                <td>14/20</td>
+                                <td>12/20</td>
+                                <td class="grade-avg">13/20</td>
+                                <td>13.5/20</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sciences Physiques</strong></td>
+                                <td>14/20</td>
+                                <td>13/20</td>
+                                <td>-</td>
+                                <td class="grade-avg">13.5/20</td>
+                                <td>13/20</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Histoire-Géographie</strong></td>
+                                <td>16/20</td>
+                                <td>17/20</td>
+                                <td>15/20</td>
+                                <td class="grade-avg">16/20</td>
+                                <td>15.2/20</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Anglais</strong></td>
+                                <td>14/20</td>
+                                <td>15/20</td>
+                                <td>-</td>
+                                <td class="grade-avg">14.5/20</td>
+                                <td>14/20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- EMPLOI DU TEMPS -->
+                <section id="emploi-temps" class="section">
+                    <div class="toolbar">
+                        <button class="btn-primary" id="prev-week" onclick="switchWeek(-1)">← Semaine précédente</button>
+                        <span id="week-label">Semaine du 17 au 21 février 2026</span>
+                        <button class="btn-primary" id="next-week" onclick="switchWeek(1)">Semaine suivante →</button>
+                    </div>
+
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Heure</th>
+                                <th>Lundi</th>
+                                <th>Mardi</th>
+                                <th>Mercredi</th>
+                                <th>Jeudi</th>
+                                <th>Vendredi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="time">08:00-09:00</td>
+                                <td class="course">Mathématiques<br>Salle 205</td>
+                                <td class="course">Français<br>Salle 101</td>
+                                <td></td>
+                                <td class="course">Anglais<br>Salle 302</td>
+                                <td class="course">Mathématiques<br>Salle 205</td>
+                            </tr>
+                            <tr>
+                                <td class="time">09:00-10:00</td>
+                                <td class="course">Mathématiques<br>Salle 205</td>
+                                <td class="course">Histoire-Géo<br>Salle 103</td>
+                                <td class="course">EPS<br>Gymnase</td>
+                                <td class="course">Anglais<br>Salle 302</td>
+                                <td class="course">Sciences<br>Labo 1</td>
+                            </tr>
+                            <tr>
+                                <td class="time">10:00-11:00</td>
+                                <td class="course">Français<br>Salle 101</td>
+                                <td class="course">Histoire-Géo<br>Salle 103</td>
+                                <td class="course">Français<br>Salle 101</td>
+                                <td class="course">SVT<br>Labo 2</td>
+                                <td class="course">Sciences<br>Labo 1</td>
+                            </tr>
+                            <tr>
+                                <td class="time">11:00-12:00</td>
+                                <td class="course">Anglais<br>Salle 302</td>
+                                <td></td>
+                                <td class="course">Mathématiques<br>Salle 205</td>
+                                <td class="course">SVT<br>Labo 2</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 15px; color: #888;">DÉJEUNER</td>
+                            </tr>
+                            <tr>
+                                <td class="time">13:30-14:30</td>
+                                <td class="course">Sciences<br>Labo 1</td>
+                                <td class="course">SVT<br>Labo 2</td>
+                                <td></td>
+                                <td class="course">Technologie<br>Salle 401</td>
+                                <td class="course">Français<br>Salle 101</td>
+                            </tr>
+                            <tr>
+                                <td class="time">14:30-15:30</td>
+                                <td class="course">SVT<br>Labo 2</td>
+                                <td class="course">Anglais<br>Salle 302</td>
+                                <td></td>
+                                <td class="course">Technologie<br>Salle 401</td>
+                                <td class="course">Histoire-Géo<br>Salle 103</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- ABSENCES -->
+                <section id="absences" class="section">
+                    <div class="absence-summary">
+                        <div class="summary-card">
+                            <h4>Total heures d'absences</h4>
+                            <div class="summary-value">2h</div>
+                        </div>
+                        <div class="summary-card">
+                            <h4>Justifiées</h4>
+                            <div class="summary-value green">2h</div>
+                        </div>
+                        <div class="summary-card">
+                            <h4>Non justifiées</h4>
+                            <div class="summary-value red">0h</div>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Matière</th>
+                                <th>Durée</th>
+                                <th>Statut</th>
+                                <th>Motif</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>14/02/2026</td>
+                                <td>Mathématiques</td>
+                                <td>1h</td>
+                                <td><span class="badge green">Justifiée</span></td>
+                                <td>Certificat médical</td>
+                            </tr>
+                            <tr>
+                                <td>10/02/2026</td>
+                                <td>EPS</td>
+                                <td>1h</td>
+                                <td><span class="badge green">Justifiée</span></td>
+                                <td>Blessure</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- MESSAGERIE -->
+                <section id="messagerie" class="section">
+                    <div class="messenger">
+                        <div class="messenger-list">
+                            <h3>Boîte de réception</h3>
+                            <div class="message-item unread" onclick="openMessage(this)">
+                                <div class="message-header">
+                                    <strong>Principal</strong>
+                                    <span class="message-date">17 fév</span>
+                                </div>
+                                <div class="message-subject">Réunion parents-professeurs</div>
+                                <div class="message-preview">La prochaine réunion aura lieu le 25 février...</div>
+                            </div>
+
+                            <div class="message-item unread" onclick="openMessage(this)">
+                                <div class="message-header">
+                                    <strong>Mme Dupont</strong>
+                                    <span class="message-date">16 fév</span>
+                                </div>
+                                <div class="message-subject">Devoir maison</div>
+                                <div class="message-preview">Veuillez faire l'exercice 3 pages 45-46...</div>
+                            </div>
+
+                            <div class="message-item" onclick="openMessage(this)">
+                                <div class="message-header">
+                                    <strong>Infirmerie</strong>
+                                    <span class="message-date">10 fév</span>
+                                </div>
+                                <div class="message-subject">Visite médicale</div>
+                                <div class="message-preview">Vous êtes conviés à passer une visite...</div>
+                            </div>
+
+                            <div class="message-item" onclick="openMessage(this)">
+                                <div class="message-header">
+                                    <strong>Cantine</strong>
+                                    <span class="message-date">07 fév</span>
+                                </div>
+                                <div class="message-subject">Menu de la semaine</div>
+                                <div class="message-preview">Découvrez le menu équilibré...</div>
+                            </div>
+                        </div>
+
+                        <div class="compose-section">
+                            <h3>Nouveau message</h3>
+                            <input type="text" id="message-to" placeholder="À :" class="input">
+                            <input type="text" id="message-subject" placeholder="Sujet :" class="input">
+                            <textarea id="message-body" placeholder="Message..." class="textarea"></textarea>
+                            <button id="send-message-btn" class="btn-primary" onclick="sendMessage()">Envoyer</button>
+                            <div id="message-display" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- DEVOIRS -->
+                <section id="devoirs" class="section">
+                    <div class="toolbar">
+                        <select class="filter-select">
+                            <option>À faire</option>
+                            <option>Rendus</option>
+                            <option>Tous les devoirs</option>
+                        </select>
+                    </div>
+
+                    <div class="homeworks-list">
+                        <div class="homework-card">
+                            <div class="homework-header">
+                                <h4>Mathématiques - Exercices dérivées</h4>
+                                <span class="deadline red">À rendre : 20 fév</span>
+                            </div>
+                            <p><strong>Professeur :</strong> M. Martin</p>
+                            <p>Faire les exercices 1-5 page 120 et 3-7 page 125</p>
+                            <div class="homework-footer">
+                                <input type="checkbox"> Marqué comme fait
+                            </div>
+                        </div>
+
+                        <div class="homework-card">
+                            <div class="homework-header">
+                                <h4>Français - Analyse de texte</h4>
+                                <span class="deadline orange">À rendre : 19 fév</span>
+                            </div>
+                            <p><strong>Professeur :</strong> Mme Dupont</p>
+                            <p>Rédiger un commentaire composé sur le passage du Tartuffe (2 pages minimum)</p>
+                            <div class="homework-footer">
+                                <input type="checkbox"> Marqué comme fait
+                            </div>
+                        </div>
+
+                        <div class="homework-card">
+                            <div class="homework-header">
+                                <h4>Sciences - Rapport de TP</h4>
+                                <span class="deadline orange">À rendre : 18 fév</span>
+                            </div>
+                            <p><strong>Professeur :</strong> M. Benoit</p>
+                            <p>Remplir le compte-rendu du TP sur l'électrocinétique</p>
+                            <div class="homework-footer">
+                                <input type="checkbox"> Marqué comme fait
+                            </div>
+                        </div>
+
+                        <div class="homework-card done">
+                            <div class="homework-header">
+                                <h4>Histoire - Fiche de révision</h4>
+                                <span class="deadline green">Rendu le 15 fév</span>
+                            </div>
+                            <p><strong>Professeur :</strong> Mme Leblanc</p>
+                            <p>Fiche de révision sur la révolution française</p>
+                            <div class="homework-footer">
+                                <input type="checkbox" checked> Marqué comme fait
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- DOCUMENTS -->
+                <section id="documents" class="section">
+                    <div class="documents-grid">
+                        <div class="doc-category">
+                            <h3>📋 Bulletins</h3>
+                            <div class="doc-list">
+                                <div class="doc-item">
+                                    <span>Bulletin 1er trimestre</span>
+                                    <a href="#" class="btn-download">Télécharger</a>
+                                </div>
+                                <div class="doc-item">
+                                    <span>Bulletin 2e trimestre</span>
+                                    <a href="#" class="btn-download">Télécharger</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="doc-category">
+                            <h3>📄 Certificats</h3>
+                            <div class="doc-list">
+                                <div class="doc-item">
+                                    <span>Certificat de scolarité</span>
+                                    <a href="#" class="btn-download">Télécharger</a>
+                                </div>
+                                <div class="doc-item">
+                                    <span>Attestation demi-pensionnaire</span>
+                                    <a href="#" class="btn-download">Télécharger</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="doc-category">
+                            <h3>📚 Cours</h3>
+                            <div class="doc-list">
+                                <div class="doc-item">
+                                    <span>Mathématiques - Chapitre 5</span>
+                                    <a href="#" class="btn-download">Télécharger</a>
+                                </div>
+                                <div class="doc-item">
+                                    <span>Français - Résumé acte 1</span>
+                                    <a href="#" class="btn-download">Télécharger</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="doc-category">
+                            <h3>🔗 Ressources</h3>
+                            <div class="doc-list">
+                                <div class="doc-item">
+                                    <span>Vidéo : Les dérivées</span>
+                                    <a href="#" class="btn-download">Consulter</a>
+                                </div>
+                                <div class="doc-item">
+                                    <span>Exercices interactifs</span>
+                                    <a href="#" class="btn-download">Accéder</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RESSOURCES -->
+                <section id="ressources" class="section">
+                    <div class="resources-grid">
+                        <div class="resource-card">
+                            <div class="resource-icon">🎓</div>
+                            <h3>Cours en ligne</h3>
+                            <p>Accédez à tous les cours vidéo et supports pédagogiques</p>
+                            <button class="btn-primary">Consulter</button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">🧪</div>
+                            <h3>Exercices pratiques</h3>
+                            <p>Entraînez-vous avec nos exercices interactifs</p>
+                            <button class="btn-primary">Démarrer</button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">📖</div>
+                            <h3>Bibliothèque</h3>
+                            <p>Consultez livres numériques et références</p>
+                            <button class="btn-primary">Explorer</button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">💬</div>
+                            <h3>Forum</h3>
+                            <p>Posez vos questions et échangez avec vos pairs</p>
+                            <button class="btn-primary">Accéder</button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">🏆</div>
+                            <h3>Défis académiques</h3>
+                            <p>Participez à des compétitions d'apprentissage</p>
+                            <button class="btn-primary">Participer</button>
+                        </div>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">⚙️</div>
+                            <h3>Outils</h3>
+                            <p>Calculatrice, dictionnaire, et autres outils utiles</p>
+                            <button class="btn-primary">Utiliser</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- MON PROFIL -->
+                <section id="profil" class="section">
+                    <div class="profile-container">
+                        <div class="profile-card">
+                            <h3>Informations personnelles</h3>
+                            <div class="profile-info">
+                                <div class="info-field">
+                                    <label>Nom complet :</label>
+                                    <input type="text" id="profile-name" readonly>
+                                </div>
+                                <div class="info-field">
+                                    <label>Rôle :</label>
+                                    <input type="text" id="profile-role" readonly>
+                                </div>
+                                <div class="info-field">
+                                    <label>Email :</label>
+                                    <input type="email" id="profile-email" readonly>
+                                </div>
+                                <div class="info-field">
+                                    <label>Classe :</label>
+                                    <input type="text" id="profile-class" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <h3>Préférences</h3>
+                            <div class="preference">
+                                <label>
+                                    <input type="checkbox" checked> Notifications par email
+                                </label>
+                            </div>
+                            <div class="preference">
+                                <label>
+                                    <input type="checkbox" checked> Afficher la photo de profil
+                                </label>
+                            </div>
+                            <div class="preference">
+                                <label>
+                                    <input type="checkbox"> Mode sombre
+                                </label>
+                            </div>
+                            <button class="btn-primary">Sauvegarder</button>
+                        </div>
+
+                        <div class="profile-card">
+                            <h3>Sécurité</h3>
+                            <button class="btn-secondary">Changer le mot de passe</button>
+                            <p style="margin-top: 15px; color: #888; font-size: 13px;">
+                                Dernière connexion : 17 février 2026 à 14:35
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="pronote-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoleDirecte</title>
+    <link rel="stylesheet" href="ent-style.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230040A8' width='100' height='100'/><text x='50' y='65' font-size='60' font-weight='bold' fill='white' text-anchor='middle'>E</text></svg>">
+</head>
+<body>
+    <!-- Page de Connexion -->
+    <div id="login-container" class="login-container active">
+        <div class="login-wrapper">
+            <div class="login-panel">
+                <!-- Header avec logo -->
+                <div class="login-header">
+                    <div class="logo-section">
+                        <svg class="logo-svg" width="40" height="40" viewBox="0 0 100 100">
+                            <rect fill="#0040A8" width="100" height="100" rx="8"/>
+                            <text x="50" y="70" font-size="70" font-weight="bold" fill="white" text-anchor="middle">E</text>
+                        </svg>
+                        <h1 class="logo-text">EcoleDirecte</h1>
+                    </div>
+                    <p class="tagline">Plateforme de gestion scolaire</p>
+                </div>
+
+                <!-- Formulaire de connexion -->
+                <div class="login-form-section">
+                    <h2>Connectez-vous</h2>
+                    <form id="login-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="username">Identifiant</label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username" 
+                                class="form-input"
+                                placeholder="Votre identifiant" 
+                                required
+                                autocomplete="username"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Mot de passe</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="form-input"
+                                placeholder="Votre mot de passe" 
+                                required
+                                autocomplete="current-password"
+                            >
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-group">
+                                <input type="checkbox" id="remember" name="remember" class="checkbox">
+                                <span>Se souvenir de moi</span>
+                            </label>
+                            <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+                        </div>
+
+                        <p class="error-message" id="error-message"></p>
+
+                        <button type="submit" class="btn-login">Connexion</button>
+                    </form>
+                </div>
+
+                <!-- Démos -->
+                <div class="demo-section">
+                    <h3>Accès de démonstration</h3>
+                    <div class="demo-grid">
+                        <div class="demo-card">
+                            <div class="demo-role">👨‍🎓 Élève</div>
+                            <div class="demo-credentials">
+                                <div class="credential-line">
+                                    <span class="label">ID:</span>
+                                    <span class="value">eleve2025</span>
+                                </div>
+                                <div class="credential-line">
+                                    <span class="label">Pass:</span>
+                                    <span class="value">1234</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-card">
+                            <div class="demo-role">👩‍🏫 Professeur</div>
+                            <div class="demo-credentials">
+                                <div class="credential-line">
+                                    <span class="label">ID:</span>
+                                    <span class="value">prof2025</span>
+                                </div>
+                                <div class="credential-line">
+                                    <span class="label">Pass:</span>
+                                    <span class="value">1234</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-card">
+                            <div class="demo-role">👨‍👩‍👧 Parent</div>
+                            <div class="demo-credentials">
+                                <div class="credential-line">
+                                    <span class="label">ID:</span>
+                                    <span class="value">parent2025</span>
+                                </div>
+                                <div class="credential-line">
+                                    <span class="label">Pass:</span>
+                                    <span class="value">1234</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne droite avec info -->
+            <div class="login-side">
+                <div class="side-content">
+                    <h2>Bienvenue !</h2>
+                    <p>Connectez-vous pour accéder à votre espace personnel et gérer votre scolarité.</p>
+                    
+                    <div class="features">
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <span>Consulter vos notes et résultats</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📅</span>
+                            <span>Voir votre emploi du temps</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✉️</span>
+                            <span>Communiquer avec l'établissement</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📱</span>
+                            <span>Disponible sur mobile</span>
+                        </div>
+                    </div>
+
+                    <div class="mobile-apps">
+                        <p><strong>Téléchargez l'application mobile :</strong></p>
+                        <div class="app-buttons">
+                            <a href="#" class="app-link">
+                                <span>🍎 App Store</span>
+                            </a>
+                            <a href="#" class="app-link">
+                                <span>🔹 Google Play</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-info">
+                    <p>Version 4.95.2</p>
+                    <div class="footer-links">
+                        <a href="#">Mentions légales</a>
+                        <a href="#">Accessibilité</a>
+                        <a href="#">Aide</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard-container" class="dashboard-container">
+        <header class="header">
+            <div class="header-top">
+                <div class="logo-header">
+                    <svg class="logo-mini" width="30" height="30" viewBox="0 0 100 100">
+                        <rect fill="#0040A8" width="100" height="100" rx="8"/>
+                        <text x="50" y="70" font-size="70" font-weight="bold" fill="white" text-anchor="middle">E</text>
+                    </svg>
+                    <span class="logo-text-small">EcoleDirecte</span>
+                </div>
+                <div class="user-info">
+                    <span id="user-name">Utilisateur</span>
+                    <button class="btn-logout" onclick="handleLogout()">Déconnexion</button>
+                </div>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-btn active" onclick="switchTab('accueil')">Accueil</button>
+                <button class="nav-btn" onclick="switchTab('notes')">Notes</button>
+                <button class="nav-btn" onclick="switchTab('emploi-temps')">Emploi du temps</button>
+                <button class="nav-btn" onclick="switchTab('messages')">Messages</button>
+                <button class="nav-btn" onclick="switchTab('documents')">Documents</button>
+            </nav>
+        </header>
+
+        <main class="main-dashboard">
+            <!-- Accueil -->
+            <section id="accueil" class="dashboard-section active">
+                <h2>Accueil</h2>
+                <div id="accueil-content"></div>
+            </section>
+
+            <!-- Notes -->
+            <section id="notes" class="dashboard-section">
+                <h2>Mes Notes</h2>
+                <div id="notes-content"></div>
+            </section>
+
+            <!-- Emploi du temps -->
+            <section id="emploi-temps" class="dashboard-section">
+                <h2>Emploi du Temps</h2>
+                <div id="emploi-content"></div>
+            </section>
+
+            <!-- Messages -->
+            <section id="messages" class="dashboard-section">
+                <h2>Messages</h2>
+                <div id="messages-content"></div>
+            </section>
+
+            <!-- Documents -->
+            <section id="documents" class="dashboard-section">
+                <h2>Documents</h2>
+                <div id="documents-content"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="ent-script.js"></script>
+</body>
+</html>

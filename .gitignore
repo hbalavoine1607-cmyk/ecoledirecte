@@ -1,0 +1,31 @@
+# Dossiers et fichiers à ignorer
+node_modules/
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+.vscode/
+.idea/
+dist/
+build/
+.cache/
+*.swp
+*.swo
+*~
+.tmp/
+.temp/
+
+# Fichiers sensibles
+.credentials
+.secret
+api-keys.js
+
+# IDE
+.vscode/settings.json
+.vscode/launch.json
+.idea/*
+
+# OS
+Thumbs.db
+.DS_Store

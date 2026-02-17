@@ -1,0 +1,31 @@
+{
+  "name": "ecoledirecte-ent",
+  "version": "1.0.0",
+  "description": "Plateforme ENT Scolaire complète - EcoleDirecte",
+  "main": "pronote.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "http-server",
+    "test": "echo \"No tests configured yet\"",
+    "build": "echo \"Static site - no build step needed\""
+  },
+  "keywords": [
+    "ENT",
+    "école",
+    "plateforme",
+    "scolaire",
+    "éducation",
+    "notes",
+    "messagerie",
+    "emploi du temps"
+  ],
+  "author": "EcoleDirecte",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/votreusername/ecoledirecte-ent.git"
+  },
+  "homepage": "https://GitHub.com/votreusername/ecoledirecte-ent",
+  "devDependencies": {},
+  "dependencies": {}
+}

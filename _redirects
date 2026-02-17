@@ -1,0 +1,4 @@
+# Configuration de redirection Netlify
+# Cela redirige toutes les routes vers pronote.html (Single Page App)
+
+/* /pronote.html 200

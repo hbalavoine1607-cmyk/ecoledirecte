@@ -1,0 +1,44 @@
+# Configuration Netlify pour EcoleDirecte
+
+[build]
+  publish = "."
+  
+[build.environment]
+  NODE_ENV = "production"
+
+# Redirections
+[[redirects]]
+  from = "/*"
+  to = "/pronote.html"
+  status = 200
+
+# Headers de sécurité
+[[headers]]
+  for = "/"
+  
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Cache
+[[headers]]
+  for = "/pronote-*.{js,css}"
+  
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/pronote.html"
+  
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Compression
+[[headers]]
+  for = "/*"
+  
+  [headers.values]
+    Content-Encoding = "gzip"
